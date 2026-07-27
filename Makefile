@@ -1,13 +1,13 @@
 all: initrd/bin/busybox root/boot/bzImage root/boot/initrd.img eams-linux.iso run
 
 initrd/bin/busybox:
-	./busybox.sh
+	scripts/busybox.sh
 
 root/boot/bzImage:
-	./kernel.sh
+	scripts/kernel.sh
 
 root/boot/initrd.img: initrd/bin/busybox
-	./initrd.sh
+	scripts/initrd.sh
 
 eams-linux.iso: root/boot/initrd.img root/boot/bzImage
 	grub-mkrescue -o eams-linux.iso root
