@@ -1,9 +1,12 @@
-all: root/boot/bzImage root/boot/initrd.img eams-linux.iso run
+all: initrd/bin/busybox root/boot/bzImage root/boot/initrd.img eams-linux.iso run
+
+initrd/bin/busybox:
+	./busybox.sh
 
 root/boot/bzImage:
 	./kernel.sh
 
-root/boot/initrd.img:
+root/boot/initrd.img: initrd/bin/busybox
 	./initrd.sh
 
 eams-linux.iso: root/boot/initrd.img root/boot/bzImage

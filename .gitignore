@@ -1,7 +1,10 @@
+initrd/init
+initrd/bin/
 root/boot/bzImage
 root/boot/initrd.img
 *.iso
 
 linux-*
+busybox-*
 *.tar*
 
