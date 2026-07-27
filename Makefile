@@ -1,11 +1,14 @@
-all: initrd.img teste.iso run
+all: root/boot/bzImage root/boot/initrd.img eams-linux.iso run
 
-initrd.img:
+root/boot/bzImage:
+	./kernel.sh
+
+root/boot/initrd.img:
 	./initrd.sh
 
-teste.iso: initrd.img
-	grub-mkrescue -o teste.iso root
+eams-linux.iso: root/boot/initrd.img root/boot/bzImage
+	grub-mkrescue -o eams-linux.iso root
 
-run: teste.iso
-	qemu-system-x86_64 -cdrom teste.iso -m 512M
+run: eams-linux.iso
+	qemu-system-x86_64 -cdrom eams-linux.iso -m 512M
 

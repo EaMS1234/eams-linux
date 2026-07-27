@@ -1,0 +1,7 @@
+root/boot/bzImage
+root/boot/initrd.img
+*.iso
+
+linux-*
+*.tar*
+
