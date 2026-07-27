@@ -28,7 +28,7 @@ cp ../config/busybox.config ./.config
 make -j $(nproc --all)
 cp busybox ../initrd/bin/
 
-cp ../config/busybox-init.config ./.config
+cp ../config/busybox_init.config ./.config
 ./make_single_applets.sh
 cp busybox_INIT ../initrd/init
 
