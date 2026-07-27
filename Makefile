@@ -1,4 +1,7 @@
-all: initrd/bin/busybox root/boot/bzImage root/boot/initrd.img eams-linux.iso run
+all: initrd/lib/libc.so initrd/bin/busybox root/boot/bzImage root/boot/initrd.img eams-linux.iso run
+
+initrd/lib/libc.so:
+	scripts/musl.sh
 
 initrd/bin/busybox:
 	scripts/busybox.sh
