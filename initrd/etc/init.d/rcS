@@ -16,3 +16,4 @@ echo 'root:x:0:0:root:/root:/bin/sh' >> /etc/passwd
 echo 'root:x:0:' >> /etc/group
 echo 'root:::0:99999:7:::' >> /etc/shadow
 
+hostname eams-linux
