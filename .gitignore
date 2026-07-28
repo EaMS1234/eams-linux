@@ -1,5 +1,7 @@
 initrd/init
 initrd/bin/
+initrd/lib/
+initrd/include/
 root/boot/bzImage
 root/boot/initrd.img
 *.iso
