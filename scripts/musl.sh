@@ -20,8 +20,9 @@ else
 fi
 
 cd $MUSL
-./configure --prefix="$PREFIX"
+./configure --prefix="$PREFIX" --syslibdir="$PREFIX/lib/"
 make TARGET=x86_64-linux-musl install
-cp $PREFIX/lib/libc.so $PREFIX/lib/ld-musl-x86_64.so.1
+rm $PREFIX/lib/ld-musl-x86_64.so.1
+ln -rs $PREFIX/lib/libc.so $PREFIX/lib/ld-musl-x86_64.so.1
 cd ..
 

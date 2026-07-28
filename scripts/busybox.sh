@@ -27,13 +27,12 @@ cd $BUSYBOX
 cp ../config/busybox.config ./.config
 make -j $(nproc --all)
 cp busybox ../initrd/bin/
-
-cp ../config/busybox_init.config ./.config
-./make_single_applets.sh
-cp busybox_INIT ../initrd/init
-
 cd ..
-initrd/bin/busybox --install initrd/bin/
+
+for item in $(initrd/bin/busybox --list); do
+    ln -rs initrd/bin/busybox initrd/bin/$item
+done
+ln -rs initrd/bin/busybox initrd/init
 chmod +x initrd/bin/*
 chmod +x initrd/init
 
