@@ -25,7 +25,7 @@ fi
 
 cd $BUSYBOX
 cp ../config/busybox.config ./.config
-make -j $(nproc --all)
+make -j $(nproc --all) CC=musl-gcc
 cp busybox ../initrd/bin/
 cd ..
 
