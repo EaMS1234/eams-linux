@@ -4,10 +4,13 @@ initrd/lib/
 initrd/include/
 root/boot/bzImage
 root/boot/initrd.img
+root/boot/limine-bios-cd.bin
+root/boot/limine-bios.bin
 *.iso
 
 linux-*
 busybox-*
 musl-*
+limine-*
 *.tar*
 
