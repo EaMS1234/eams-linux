@@ -21,6 +21,7 @@ fi
 cd $LINUX
 cp ../config/kernel.config ./.config
 make -j $(nproc --all)
+make -j $(nproc --all) INSTALL_HDR_PATH=../initrd/ headers_install
 
 cd ..
 cp $LINUX/arch/x86/boot/bzImage root/boot/
