@@ -16,7 +16,7 @@ root/boot/initrd.img: initrd/lib/libc.so initrd/bin/limine initrd/bin/busybox
 	scripts/initrd.sh
 
 eams-linux.iso: root/boot/initrd.img root/boot/bzImage
-	xorriso -as mkisofs -b /boot/limine-bios-cd.bin -no-emul-boot -boot-load-size 4 -boot-info-table root/ -o eams-linux.iso
+	xorriso -as mkisofs -V "EaMS Linux" -b /boot/limine-bios-cd.bin -no-emul-boot -boot-load-size 4 -boot-info-table root/ -o eams-linux.iso
 	initrd/bin/limine bios-install eams-linux.iso
 
 run: eams-linux.iso
