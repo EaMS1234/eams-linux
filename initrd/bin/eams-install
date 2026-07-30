@@ -4,14 +4,12 @@ ISO=/mnt/iso/
 TMP=/mnt/tmp/
 TMP_BOOT=/mnt/boot/
 
-clear
+echo "EaMS Linux simplified installation script"
 
-echo "EaMS Linux Installation Script"
+read -p "/ partition (/dev/sdX): " ROOT
+read -p "/boot partition (/dev/sdX): " BOOT
 
-read -p "/ partition: " ROOT
-read -p "/boot partition: " BOOT
-
-echo "Making filesystems..."
+echo " [1/6] Making filesystems..."
 
 mkfs.vfat $BOOT
 mkfs.ext2 $ROOT
@@ -34,7 +32,7 @@ mkdir $TMP/home/
 mkdir $TMP/boot/
 mkdir $TMP/mnt/
 
-echo "Copying files..."
+echo " [2/6] Copying files..."
 
 cp $ISO/boot/bzImage $TMP_BOOT
 cp $ISO/boot/limine-bios.sys $TMP_BOOT
@@ -46,8 +44,9 @@ cp -r /share $TMP
 cp -r /etc $TMP
 
 rm $TMP/bin/eams-install
+if [ -e $TMP/lost+found ]; then rm -r $TMP/lost+found; fi
 
-echo "Making initrd.img..."
+echo " [3/6] Making initrd.img..."
 
 touch $TMP/init
 chmod +x $TMP/init
@@ -65,9 +64,8 @@ cd /
 
 rm $TMP/init
 
-echo "Configuring"
+echo " [4/6] Configuring inittab and fstab"
 
-rm $TMP/etc/init.d/S00iso
 sed -i '/::askfirst:-\/bin\/sh/d' $TMP/etc/inittab
 echo "::respawn:-/bin/login" >> $TMP/etc/inittab
 
@@ -77,7 +75,7 @@ BOOT_UUID=$(echo $(blkid $BOOT) | sed -n 's/.*UUID="\([^"]*\)".*/\1/p')
 
 echo "UUID=$BOOT_UUID /boot vfat defaults" >> $TMP/etc/fstab
 
-echo "Installing limine..."
+echo " [5/6] Installing limine on ${BOOT%?} partition ${BOOT: -1}"
 
 touch $TMP_BOOT/limine.conf
 echo "timeout: 5" >> $TMP_BOOT/limine.conf
@@ -88,6 +86,13 @@ echo "  module_path: boot():/initrd.img" >> $TMP_BOOT/limine.conf
 echo "  cmdline: ip=dhcp" >> $TMP_BOOT/limine.conf
 
 limine bios-install ${BOOT%?} ${BOOT: -1}
+
+echo " [6/6] Unmounting filesystems..."
+
+umount $BOOT
+umount $ROOT
+umount $ISO
+eject /dev/sr0
 
 echo "EaMS Linux installation complete!"
 
