@@ -71,8 +71,10 @@ echo "::respawn:-/bin/login" >> $TMP/etc/inittab
 
 touch $TMP/etc/fstab
 
+ROOT_UUID=$(echo $(blkid $ROOT) | sed -n 's/.*UUID="\([^"]*\)".*/\1/p')
 BOOT_UUID=$(echo $(blkid $BOOT) | sed -n 's/.*UUID="\([^"]*\)".*/\1/p')
 
+echo "UUID=$ROOT_UUID / ext2 defaults" >> $TMP/etc/fstab
 echo "UUID=$BOOT_UUID /boot vfat defaults" >> $TMP/etc/fstab
 
 echo " [5/6] Installing limine on ${BOOT%?} partition ${BOOT: -1}"
