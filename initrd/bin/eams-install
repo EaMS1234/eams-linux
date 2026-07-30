@@ -2,10 +2,11 @@
 
 ISO=/mnt/iso/
 TMP=/mnt/tmp/
+TMP_BOOT=/mnt/boot/
 
 clear
 
-echo "EaMS Linux Installation Script\n"
+echo "EaMS Linux Installation Script"
 
 read -p "/ partition: " ROOT
 read -p "/boot partition: " BOOT
@@ -25,13 +26,13 @@ mount /dev/sr0 $ISO
 mkdir $TMP
 mount $ROOT $TMP
 
-mkdir $TMP/boot/
-mount $BOOT $TMP/boot/
+mkdir $TMP_BOOT
+mount $BOOT $TMP_BOOT
 
 echo "Copying files..."
 
-cp $ISO/boot/bzImage $TMP/boot/
-cp $ISO/boot/limine-bios.sys $TMP/boot/
+cp $ISO/boot/bzImage $TMP_BOOT
+cp $ISO/boot/limine-bios.sys $TMP_BOOT
 
 cp -r /bin $TMP
 cp -r /lib $TMP
@@ -39,21 +40,35 @@ cp -r /include $TMP
 cp -r /share $TMP
 cp -r /etc $TMP
 
-echo "Making initrd.img... (Not yet implemented)"
+echo "Making initrd.img..."
 
-cp $ISO/boot/initrd.img $TMP/boot/
+touch $TMP/init
+chmod +x $TMP/init
+echo "#!/bin/sh" >> $TMP/init
+echo "mkdir -p /proc /sys /dev" >> $TMP/init
+echo "mount -t proc proc /proc" >> $TMP/init
+echo "mount -t sysfs sysfs /sys" >> $TMP/init
+echo "mount -t devtmpfs devtmpfs /dev" >> $TMP/init
+echo "mount $ROOT /root" >> $TMP/init
+echo "exec run-init /root /bin/init" >> $TMP/init
+
+cd $TMP
+find . -print0 | cpio --null -ov --format=newc | gzip -9 > $TMP_BOOT/initrd.img
+cd /
+
+rm $TMP/init
 
 echo "Installing limine..."
 
-touch $TMP/boot/limine.conf
-echo "timeout: 5" >> $TMP/boot/limine.conf
-echo "/EaMS $(uname -srv)" >> $TMP/boot/limine.conf
-echo "  protocol: linux" >> $TMP/boot/limine.conf
-echo "  path: boot():/bzImage" >> $TMP/boot/limine.conf
-echo "  module_path: boot():/initrd.img" >> $TMP/boot/limine.conf
-echo "  cmdline: ip=dhcp" >> $TMP/boot/limine.conf
+touch $TMP_BOOT/limine.conf
+echo "timeout: 5" >> $TMP_BOOT/limine.conf
+echo "/EaMS $(uname -srv)" >> $TMP_BOOT/limine.conf
+echo "  protocol: linux" >> $TMP_BOOT/limine.conf
+echo "  path: boot():/bzImage" >> $TMP_BOOT/limine.conf
+echo "  module_path: boot():/initrd.img" >> $TMP_BOOT/limine.conf
+echo "  cmdline: ip=dhcp" >> $TMP_BOOT/limine.conf
 
-limine bios-install ${BOOT%?} 1
+limine bios-install ${BOOT%?} ${BOOT: -1}
 
 echo "EaMS Linux installation complete!"
 
