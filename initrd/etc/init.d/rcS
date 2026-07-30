@@ -1,19 +1,13 @@
 #!/bin/sh
 
-echo -e "Welcome to \033[1;34mEaMS Linux\033[0m!"
-
-chown -R 0:0 /
-
 mkdir -p /proc /sys /dev
 mount -t proc proc /proc
 mount -t sysfs sysfs /sys
 mount -t devtmpfs devtmpfs /dev
 
-touch /etc/passwd /etc/group /etc/shadow
-chmod 644 /etc/passwd /etc/group
-chmod 600 /etc/shadow
-echo 'root:x:0:0:root:/root:/bin/sh' >> /etc/passwd
-echo 'root:x:0:' >> /etc/group
-echo 'root:::0:99999:7:::' >> /etc/shadow
+for s in /etc/init.d/S*; do
+    if [ -x "$s" ]; then
+        "$s" start
+    fi
+done
 
-hostname eams-linux

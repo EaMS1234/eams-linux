@@ -1,0 +1,10 @@
+#!/bin/sh
+
+case "$1" in
+  start)
+    if [ -s /etc/hostname ]; then
+      hostname -F /etc/hostname
+      echo "AQUI!!"
+    fi
+    ;;
+esac
