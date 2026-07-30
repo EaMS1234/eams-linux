@@ -2,6 +2,7 @@ initrd/init
 initrd/bin/
 initrd/lib/
 initrd/include/
+initrd/share/
 root/boot/bzImage
 root/boot/initrd.img
 root/boot/limine-bios-cd.bin

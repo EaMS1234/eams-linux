@@ -12,7 +12,7 @@ initrd/bin/busybox:
 root/boot/bzImage:
 	scripts/kernel.sh
 
-root/boot/initrd.img: initrd/bin/busybox
+root/boot/initrd.img: initrd/lib/libc.so initrd/bin/limine initrd/bin/busybox
 	scripts/initrd.sh
 
 eams-linux.iso: root/boot/initrd.img root/boot/bzImage

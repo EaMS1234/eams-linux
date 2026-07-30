@@ -32,5 +32,4 @@ make -j $(nproc --all) CC=musl-gcc && make install
 cd ..
 
 cp initrd/share/limine/* root/boot/
-rm -r initrd/share
 
