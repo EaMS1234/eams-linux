@@ -29,6 +29,11 @@ mount $ROOT $TMP
 mkdir $TMP_BOOT
 mount $BOOT $TMP_BOOT
 
+mkdir $TMP/root/
+mkdir $TMP/home/
+mkdir $TMP/boot/
+mkdir $TMP/mnt/
+
 echo "Copying files..."
 
 cp $ISO/boot/bzImage $TMP_BOOT
@@ -39,6 +44,8 @@ cp -r /lib $TMP
 cp -r /include $TMP
 cp -r /share $TMP
 cp -r /etc $TMP
+
+rm $TMP/bin/eams-install
 
 echo "Making initrd.img..."
 
@@ -53,10 +60,22 @@ echo "mount $ROOT /root" >> $TMP/init
 echo "exec run-init /root /bin/init" >> $TMP/init
 
 cd $TMP
-find . -print0 | cpio --null -ov --format=newc | gzip -9 > $TMP_BOOT/initrd.img
+find . -path './etc' -prune -o -print0 | cpio --null -ov --format=newc | gzip -9 > $TMP_BOOT/initrd.img
 cd /
 
 rm $TMP/init
+
+echo "Configuring"
+
+rm $TMP/etc/init.d/S00iso
+sed -i '/::askfirst:-\/bin\/sh/d' $TMP/etc/inittab
+echo "::respawn:-/bin/login" >> $TMP/etc/inittab
+
+touch $TMP/etc/fstab
+
+BOOT_UUID=$(echo $(blkid $BOOT) | sed -n 's/.*UUID="\([^"]*\)".*/\1/p')
+
+echo "UUID=$BOOT_UUID /boot vfat defaults" >> $TMP/etc/fstab
 
 echo "Installing limine..."
 

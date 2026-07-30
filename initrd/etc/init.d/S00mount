@@ -2,7 +2,9 @@
 
 case "$1" in
   start)
-    mount -a
+    if [ -e /etc/fstab ]; then
+      mount -a
+    fi
     ;;
   stop)
     umount -a
