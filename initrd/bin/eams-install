@@ -67,7 +67,7 @@ rm $TMP/init
 echo " [4/6] Configuring inittab and fstab"
 
 sed -i '/::askfirst:-\/bin\/sh/d' $TMP/etc/inittab
-echo "::respawn:-/bin/login" >> $TMP/etc/inittab
+echo "::respawn:/bin/getty 38400 tty1" >> $TMP/etc/inittab
 
 touch $TMP/etc/fstab
 
@@ -85,7 +85,7 @@ echo "/EaMS $(uname -srv)" >> $TMP_BOOT/limine.conf
 echo "  protocol: linux" >> $TMP_BOOT/limine.conf
 echo "  path: boot():/bzImage" >> $TMP_BOOT/limine.conf
 echo "  module_path: boot():/initrd.img" >> $TMP_BOOT/limine.conf
-echo "  cmdline: ip=dhcp" >> $TMP_BOOT/limine.conf
+echo "  cmdline: ip=dhcp console=tty1" >> $TMP_BOOT/limine.conf
 
 limine bios-install ${BOOT%?} ${BOOT: -1}
 
