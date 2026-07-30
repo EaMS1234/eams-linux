@@ -11,3 +11,5 @@ for s in /etc/init.d/S*; do
     fi
 done
 
+echo -e "Welcome to \033[1;34mEaMS Linux\033[0m!"
+

@@ -1,4 +1,0 @@
-#!/bin/sh
-
-echo -e "Welcome to \033[1;34mEaMS Linux\033[0m!"
-

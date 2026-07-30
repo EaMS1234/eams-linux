@@ -1,0 +1,14 @@
+#!/bin/sh
+
+echo "Goodbye!"
+
+for s in /etc/init.d/S*; do
+    if [ -x "$s" ]; then
+        "$s" stop
+    fi
+done
+
+umount /proc
+umount /sys
+umount /dev
+
