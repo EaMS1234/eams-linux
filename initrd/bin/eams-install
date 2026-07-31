@@ -66,8 +66,7 @@ rm $TMP/init
 
 echo " [4/6] Configuring inittab and fstab"
 
-sed -i '/::askfirst:-\/bin\/sh/d' $TMP/etc/inittab
-echo "::respawn:/bin/getty 38400 tty1" >> $TMP/etc/inittab
+sed -i 's|::askfirst:-/bin/sh|::respawn:/bin/getty 38400 tty1|' $TMP/etc/inittab
 
 touch $TMP/etc/fstab
 
@@ -97,4 +96,3 @@ umount $ISO
 eject /dev/sr0
 
 echo "EaMS Linux installation complete!"
-
