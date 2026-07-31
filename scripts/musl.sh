@@ -22,7 +22,7 @@ fi
 
 cd $MUSL
 ./configure --prefix="$PREFIX" --syslibdir="$PREFIX/lib/"
-make TARGET=x86_64-linux-musl install
+make -j $(nproc --all) TARGET=x86_64-linux-musl install
 rm $PREFIX/lib/ld-musl-x86_64.so.1
 ln -rs $PREFIX/lib/libc.so $PREFIX/lib/ld-musl-x86_64.so.1
 cd ..
