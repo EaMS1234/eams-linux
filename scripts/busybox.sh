@@ -17,6 +17,7 @@ if [ ! -d $BUSYBOX ]; then
   fi
 
   tar -xf $BUSYBOX.tar.bz2
+  rm $BUSYBOX.tar.bz2
 
 else
   echo "$BUSYBOX is already present"

@@ -12,6 +12,7 @@ if [ ! -d $LINUX ]; then
   fi
 
   tar -xf $LINUX.tar.xz
+  rm $LINUX.tar.xz
 
 else
   echo "$LINUX is already present"

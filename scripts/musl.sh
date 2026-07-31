@@ -5,7 +5,7 @@ PREFIX=../initrd
 
 if [ ! -d $MUSL ]; then
   if [ ! -e $MUSL.tar.gz ]; then
-    wget https://musl.libc.org/releases/musl-1.2.6.tar.gz
+    wget https://musl.libc.org/releases/$MUSL.tar.gz
 
   else
     echo "$MUSL.tar.gz is already present"
@@ -13,6 +13,7 @@ if [ ! -d $MUSL ]; then
   fi
 
   tar -xf $MUSL.tar.gz
+  rm $MUSL.tar.gz
 
 else
   echo "$MUSL is already present"

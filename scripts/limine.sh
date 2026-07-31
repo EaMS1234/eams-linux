@@ -20,6 +20,7 @@ if [ ! -d $LIMINE ]; then
   fi
 
   tar -xf $LIMINE.tar.xz
+  rm $LIMINE.tar.xz
 
 else
   echo "$LIMINE is already present"
