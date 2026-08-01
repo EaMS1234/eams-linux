@@ -28,7 +28,7 @@ else
 fi
 
 cd $LIMINE
-./configure --enable-bios --enable-bios-cd --prefix=$(pwd)/../initrd/
+./configure --enable-bios --enable-bios-cd --enable-uefi-x86-64 --enable-uefi-cd --prefix=$(pwd)/../initrd/
 make -j $(nproc --all) CC=musl-gcc && make install
 cd ..
 
