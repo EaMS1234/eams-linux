@@ -6,9 +6,13 @@ mount -t sysfs sysfs /sys
 mount -t devtmpfs devtmpfs /dev
 
 for s in /etc/init.d/S*; do
-    if [ -x "$s" ]; then
-        "$s" start
-    fi
+  if [ -x "$s" ]; then
+    echo "(init) $s start"
+    "$s" start
+  else
+    echo "(init) $s is not executable"
+  fi
 done
 
-echo -e "Welcome to \033[1;34mEaMS Linux\033[0m!"
+echo -e "\nWelcome to \033[1;34mEaMS Linux\033[0m!"
+echo -e "\nCopyright (c) 2026 Erick Augusto"

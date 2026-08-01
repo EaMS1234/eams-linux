@@ -1,13 +1,10 @@
 #!/bin/sh
 
-echo "Goodbye!"
+echo -e "\nGoodbye!"
 
 for s in /etc/init.d/S*; do
-    if [ -x "$s" ]; then
-        "$s" stop
-    fi
+  if [ -x "$s" ]; then
+    echo "(init) $s stop"
+    "$s" stop
+  fi
 done
-
-umount /proc
-umount /sys
-umount /dev
