@@ -2,7 +2,7 @@
 
 echo -e "\nGoodbye!"
 
-for s in /etc/init.d/S*; do
+for s in $(ls -r /etc/init.d/S*); do
   if [ -x "$s" ]; then
     echo "(init) $s stop"
     "$s" stop
