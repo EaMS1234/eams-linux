@@ -1,0 +1,28 @@
+#!/bin/sh
+
+case "$1" in
+  deconfig)
+    ip -6 addr flush dev $interface scope global
+    ;;
+  renew|bound)
+    if [ -n "$ipv6" ]; then
+      case "$ipv6" in
+        */*) ip -6 addr add $ipv6 dev $interface ;;
+        *)   ip -6 addr add ${ipv6}/64 dev $interface ;;
+      esac
+    fi
+
+    if [ -n "$dns" ] ; then
+      echo -n > /etc/resolv.conf
+      for i in $dns ; do
+        echo "nameserver $i" >> /etc/resolv.conf
+      done
+    fi
+
+    if [ -n "$domain" ]; then
+      for d in $domain ; do
+        echo "search $d" >> $RESOLV_CONF
+      done
+    fi
+    ;;
+esac

@@ -1,0 +1,20 @@
+#!/bin/sh
+
+if [ ! -e /etc/network/if-pre-up.d ]; then mkdir -p /etc/network/if-pre-up.d; fi
+if [ ! -e /etc/network/if-up.d ]; then mkdir -p /etc/network/if-up.d; fi
+if [ ! -e /var/run/ ]; then mkdir -p /var/run; fi
+if [ ! -e /etc/network/if-post-down.d ]; then mkdir -p /etc/network/if-post-down.d; fi
+if [ ! -e /etc/network/if-down.d ]; then mkdir -p /etc/network/if-down.d; fi
+
+case "$1" in
+  start)
+    if [ -s /etc/network/interfaces ]; then
+      ifup -a
+    fi
+    ;;
+  stop)
+    if [ -s /etc/network/interfaces ]; then
+      ifdown -a
+    fi
+    ;;
+esac
