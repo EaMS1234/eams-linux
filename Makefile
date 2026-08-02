@@ -1,4 +1,4 @@
-all: initrd/lib/libc.so initrd/bin/busybox initrd/bin/limine root/boot/bzImage root/boot/initrd.img eams-linux.iso run
+all: initrd/lib/libc.so initrd/bin/busybox initrd/bin/doas initrd/bin/limine root/boot/bzImage root/boot/initrd.img eams-linux.iso run
 
 initrd/lib/libc.so:
 	scripts/musl.sh
@@ -8,6 +8,9 @@ initrd/bin/limine:
 
 initrd/bin/busybox:
 	scripts/busybox.sh
+
+initrd/bin/doas:
+	scripts/opendoas.sh
 
 root/boot/bzImage:
 	scripts/kernel.sh

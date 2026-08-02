@@ -10,5 +10,6 @@ linux-*
 busybox-*
 musl-*
 limine-*
+opendoas-*
 *.tar*
 
