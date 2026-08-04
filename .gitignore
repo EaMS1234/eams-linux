@@ -11,5 +11,9 @@ busybox-*
 musl-*
 limine-*
 opendoas-*
+wayland-*
+libffi-*
+expat-*
+libxml2-*
 *.tar*
 
