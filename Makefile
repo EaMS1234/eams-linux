@@ -4,7 +4,7 @@ noui: essentials eams-linux.iso run
 
 essentials: initrd/lib/libc.so initrd/bin/busybox initrd/bin/doas initrd/bin/limine
 
-ui: essentials initrd/lib/libffi.so initrd/lib/libxml2.so initrd/lib/libexpat.so initrd/lib/libwayland-server.so
+ui: essentials initrd/lib/libffi.so initrd/lib/libxml2.so initrd/lib/libexpat.so initrd/lib/libpixman-1.so initrd/lib/libdrm.so initrd/lib/libwayland-server.so initrd/lib/libxkbcommon.so
 
 initrd/lib/libc.so:
 	scripts/musl.sh
@@ -18,8 +18,17 @@ initrd/lib/libxml2.so: initrd/lib/libc.so
 initrd/lib/libexpat.so: initrd/lib/libc.so
 	scripts/expat.sh
 
+initrd/lib/libpixman-1.so: initrd/lib/libc.so
+	scripts/pixman.sh
+
+initrd/lib/libdrm.so: initrd/lib/libc.so
+	scripts/libdrm.sh
+
 initrd/lib/libwayland-server.so: initrd/lib/libc.so initrd/lib/libffi.so initrd/lib/libxml2.so initrd/lib/libexpat.so
 	scripts/wayland.sh
+
+initrd/lib/libxkbcommon.so:
+	scripts/xkbcommon.sh
 
 initrd/bin/limine: initrd/lib/libc.so
 	scripts/limine.sh

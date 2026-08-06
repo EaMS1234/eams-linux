@@ -3,6 +3,7 @@ initrd/bin/
 initrd/lib/
 initrd/include/
 initrd/share/
+initrd/libexec/
 root/boot/
 *.iso
 
@@ -15,5 +16,8 @@ wayland-*
 libffi-*
 expat-*
 libxml2-*
+xkbcommon-*
+libdrm-*
+pixman-*
 *.tar*
 
