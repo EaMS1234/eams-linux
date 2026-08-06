@@ -1,8 +1,11 @@
-#!/bin/bash
+#!/bin/sh
 
 WAYLAND=wayland-1.26.0
 WAYLAND_PROTOCOLS=wayland-protocols-1.49
 PREFIX=$(pwd)/initrd
+
+export PATH="$PREFIX/bin:$PATH"
+export PKG_CONFIG_PATH="$PREFIX/lib/pkgconfig:$PKG_CONFIG_PATH"
 
 if [ ! -d $WAYLAND ]; then
   if [ ! -e $WAYLAND.tar.xz ]; then
@@ -22,8 +25,7 @@ else
 fi
 
 cd $WAYLAND
-export PKG_CONFIG_PATH=$PREFIX/lib/pkgconfig
-CC=musl-gcc meson setup build --prefix=$PREFIX -Ddocumentation=false
+meson setup build --prefix=$PREFIX -Ddocumentation=false
 ninja -C build install
 cd ..
 
@@ -46,6 +48,6 @@ else
 fi
 
 cd $WAYLAND_PROTOCOLS
-meson setup build --prefix=$PREFIX
+meson setup build --prefix=$PREFIX -Dtests=false
 ninja -C build install
 cd ..

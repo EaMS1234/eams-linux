@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 EXPAT=expat-2.8.2
 PREFIX=$(pwd)/initrd
@@ -21,7 +21,6 @@ else
 fi
 
 cd $EXPAT
-CC=musl-gcc ./configure --prefix="$PREFIX"
-make -j $(nproc --all)
-make install
+./configure --prefix="$PREFIX"
+make -j $(nproc --all) && make install
 cd ..

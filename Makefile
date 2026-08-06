@@ -9,13 +9,13 @@ ui: essentials initrd/lib/libffi.so initrd/lib/libxml2.so initrd/lib/libexpat.so
 initrd/lib/libc.so:
 	scripts/musl.sh
 
-initrd/lib/libffi.so: initrd/lib/libc.so 
+initrd/lib/libffi.so: initrd/lib/libc.so
 	scripts/libffi.sh
 
-initrd/lib/libxml2.so: initrd/lib/libc.so 
+initrd/lib/libxml2.so: initrd/lib/libc.so
 	scripts/libxml2.sh
 
-initrd/lib/libexpat.so: initrd/lib/libc.so 
+initrd/lib/libexpat.so: initrd/lib/libc.so
 	scripts/expat.sh
 
 initrd/lib/libwayland-server.so: initrd/lib/libc.so initrd/lib/libffi.so initrd/lib/libxml2.so initrd/lib/libexpat.so
@@ -36,7 +36,7 @@ root/boot/bzImage:
 root/boot/initrd.img: essentials
 	scripts/initrd.sh
 
-eams-linux.iso: initrd/bin/limine root/boot/initrd.img root/boot/bzImage
+eams-linux.iso: root/boot/initrd.img root/boot/bzImage
 	xorriso -as mkisofs -V "EaMS Linux" -b /boot/limine-bios-cd.bin -no-emul-boot -boot-load-size 4 -boot-info-table --efi-boot /boot/limine-uefi-cd.bin -efi-boot-part --efi-boot-image root/ -o eams-linux.iso
 	initrd/bin/limine bios-install eams-linux.iso
 

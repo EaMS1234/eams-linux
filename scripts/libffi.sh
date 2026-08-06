@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 LIBFFI=libffi-3.7.1
 PREFIX=$(pwd)/initrd
@@ -21,7 +21,6 @@ else
 fi
 
 cd $LIBFFI
-CC=musl-gcc ./configure --prefix="$PREFIX"
-make -j $(nproc --all)
-make install
+./configure --prefix="$PREFIX"
+make -j $(nproc --all) && make install
 cd ..

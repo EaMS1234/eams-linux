@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 MUSL=musl-1.2.6
 PREFIX=../initrd
@@ -24,6 +24,6 @@ cd $MUSL
 ./configure --prefix="$PREFIX" --syslibdir="$PREFIX/lib/"
 make -j $(nproc --all) TARGET=x86_64-linux-musl install
 rm $PREFIX/lib/ld-musl-x86_64.so.1
-ln -rs $PREFIX/lib/libc.so $PREFIX/lib/ld-musl-x86_64.so.1
+ln -s /lib/libc.so $PREFIX/lib/ld-musl-x86_64.so.1
 cd ..
 

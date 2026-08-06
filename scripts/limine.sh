@@ -1,9 +1,8 @@
-#!/bin/bash
+#!/bin/sh
 
 LIMINE=limine-12.5.2
 
-[[ $LIMINE =~ ^limine-(.*)$ ]]
-VERSION="v${BASH_REMATCH[1]}"
+VERSION="v${LIMINE#limine-}"
 
 if [ ! -e initrd/bin/ ]; then
   mkdir initrd/bin/
@@ -29,7 +28,7 @@ fi
 
 cd $LIMINE
 ./configure --enable-bios --enable-bios-cd --enable-uefi-x86-64 --enable-uefi-cd --prefix=$(pwd)/../initrd/
-make -j $(nproc --all) CC=musl-gcc && make install
+make -j $(nproc --all) && make install
 cd ..
 
 cp initrd/share/limine/* root/boot/

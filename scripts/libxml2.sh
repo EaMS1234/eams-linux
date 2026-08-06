@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 LIBXML2=libxml2-v2.15.3
 PREFIX=$(pwd)/initrd
@@ -21,6 +21,7 @@ else
 fi
 
 cd $LIBXML2
-CC=musl-gcc meson setup build --prefix=$PREFIX
+meson setup build --prefix=$PREFIX
 ninja -C build install
+ln -s libxml2.so $PREFIX/lib/libxml2.so.2
 cd ..

@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 BUSYBOX=busybox-1.38.0
 
@@ -26,14 +26,14 @@ fi
 
 cd $BUSYBOX
 cp ../config/busybox.config ./.config
-make -j $(nproc --all) CC=musl-gcc
+make -j $(nproc --all)
 cp busybox ../initrd/bin/
 cd ..
 
 for item in $(initrd/bin/busybox --list); do
-    ln -rs initrd/bin/busybox initrd/bin/$item
+    ln -s /bin/busybox initrd/bin/$item
 done
-ln -rs initrd/bin/busybox initrd/init
+ln -s /bin/busybox initrd/init
 chmod +x initrd/bin/*
 chmod +x initrd/init
 

@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 LINUX=linux-7.1.5
 
