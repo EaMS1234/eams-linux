@@ -1,10 +1,8 @@
-all: essentials ui eams-linux.iso run
+all: essentials eams-linux.iso run
 
-noui: essentials eams-linux.iso run
+ui: essentials initrd/lib/libwayland-server.so initrd/lib/libxkbcommon.so eams-linux.iso run
 
-essentials: initrd/lib/libc.so initrd/bin/busybox initrd/bin/doas initrd/bin/limine
-
-ui: essentials initrd/lib/libwayland-server.so initrd/lib/libxkbcommon.so
+essentials: initrd/lib/libc.so initrd/bin/busybox initrd/bin/doas initrd/bin/limine root/boot/bzImage
 
 initrd/lib/libc.so:
 	scripts/musl.sh
@@ -45,7 +43,7 @@ root/boot/bzImage:
 root/boot/initrd.img: essentials
 	scripts/initrd.sh
 
-eams-linux.iso: root/boot/initrd.img root/boot/bzImage
+eams-linux.iso: root/boot/initrd.img
 	xorriso -as mkisofs -V "EaMS Linux" -b /boot/limine-bios-cd.bin -no-emul-boot -boot-load-size 4 -boot-info-table --efi-boot /boot/limine-uefi-cd.bin -efi-boot-part --efi-boot-image root/ -o eams-linux.iso
 	initrd/bin/limine bios-install eams-linux.iso
 
