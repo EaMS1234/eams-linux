@@ -22,7 +22,7 @@ else
 fi
 
 cd $LINUX
-cp ../config/kernel.config ./.config
+cp ../config/kernel.config ./.config && make olddefconfig
 make -j $(nproc --all)
 make -j $(nproc --all) INSTALL_HDR_PATH=../initrd/ headers_install
 
