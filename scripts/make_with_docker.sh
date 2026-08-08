@@ -1,6 +1,6 @@
 #!/bin/sh
 
-TOOLS="build-base clang lld llvm mtools nasm bc cpio gettext perl xorriso meson ninja git bison cmake rsync gzip flex diffutils findutils"
+TOOLS="build-base clang lld llvm mtools nasm bc cpio gettext perl xorriso meson ninja git bison cmake rsync gzip flex diffutils findutils wget ca-certificates ssl_client"
 LIBS="linux-headers pkgconf pkgconf-dev libffi-dev expat-dev libxml2-dev xkeyboard-config elfutils-dev openssl-dev ncurses-dev"
 
 docker run --rm -it -v $(pwd):/eams-linux/ alpine \

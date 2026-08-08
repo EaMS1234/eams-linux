@@ -4,7 +4,6 @@ WAYLAND=wayland-1.26.0
 WAYLAND_PROTOCOLS=wayland-protocols-1.49
 PREFIX=$(pwd)/initrd
 
-export PATH="$PREFIX/bin:$PATH"
 export PKG_CONFIG_PATH="$PREFIX/lib/pkgconfig:$PKG_CONFIG_PATH"
 export LD_LIBRARY_PATH="$PREFIX/lib:$LD_LIBRARY_PATH"
 

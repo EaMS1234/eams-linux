@@ -5,40 +5,40 @@ ui: essentials initrd/lib/libwayland-server.so initrd/lib/libxkbcommon.so eams-l
 essentials: initrd/lib/libc.so initrd/bin/busybox initrd/bin/doas initrd/bin/limine root/boot/bzImage
 
 initrd/lib/libc.so:
-	scripts/musl.sh
+	scripts/build/musl.sh
 
 initrd/lib/libffi.so: initrd/lib/libc.so
-	scripts/libffi.sh
+	scripts/build/libffi.sh
 
 initrd/lib/libxml2.so: initrd/lib/libc.so
-	scripts/libxml2.sh
+	scripts/build/libxml2.sh
 
 initrd/lib/libexpat.so: initrd/lib/libc.so
-	scripts/expat.sh
+	scripts/build/expat.sh
 
 initrd/lib/libpixman-1.so: initrd/lib/libc.so
-	scripts/pixman.sh
+	scripts/build/pixman.sh
 
 initrd/lib/libdrm.so: initrd/lib/libc.so
-	scripts/libdrm.sh
+	scripts/build/libdrm.sh
 
 initrd/lib/libwayland-server.so: initrd/lib/libffi.so initrd/lib/libxml2.so initrd/lib/libexpat.so
-	scripts/wayland.sh
+	scripts/build/wayland.sh
 
 initrd/lib/libxkbcommon.so: initrd/lib/libwayland-server.so initrd/lib/libpixman-1.so initrd/lib/libdrm.so
-	scripts/xkbcommon.sh
+	scripts/build/xkbcommon.sh
 
 initrd/bin/limine: initrd/lib/libc.so
-	scripts/limine.sh
+	scripts/build/limine.sh
 
 initrd/bin/busybox: initrd/lib/libc.so
-	scripts/busybox.sh
+	scripts/build/busybox.sh
 
 initrd/bin/doas: initrd/lib/libc.so
-	scripts/opendoas.sh
+	scripts/build/opendoas.sh
 
 root/boot/bzImage:
-	scripts/kernel.sh
+	scripts/build/kernel.sh
 
 root/boot/initrd.img: essentials
 	scripts/initrd.sh
