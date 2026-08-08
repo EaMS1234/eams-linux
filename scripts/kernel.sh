@@ -5,6 +5,8 @@ LINUX=linux-7.1.5
 if [ ! -d $LINUX ]; then
   if [ ! -e $LINUX.tar.xz ]; then
     wget https://cdn.kernel.org/pub/linux/kernel/v7.x/$LINUX.tar.xz
+    ERROR=$?
+    if [ ! $ERROR -eq 0 ]; then exit $ERROR; fi
       
   else
     echo "$LINUX.tar.xz is already present"

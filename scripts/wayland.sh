@@ -6,10 +6,13 @@ PREFIX=$(pwd)/initrd
 
 export PATH="$PREFIX/bin:$PATH"
 export PKG_CONFIG_PATH="$PREFIX/lib/pkgconfig:$PKG_CONFIG_PATH"
+export LD_LIBRARY_PATH="$PREFIX/lib:$LD_LIBRARY_PATH"
 
 if [ ! -d $WAYLAND ]; then
   if [ ! -e $WAYLAND.tar.xz ]; then
     wget https://gitlab.freedesktop.org/wayland/wayland/-/releases/1.26.0/downloads/$WAYLAND.tar.xz
+    ERROR=$?
+    if [ ! $ERROR -eq 0 ]; then exit $ERROR; fi
 
   else
     echo "$WAYLAND.tar.xz is already present"

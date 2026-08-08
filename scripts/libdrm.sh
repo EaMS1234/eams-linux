@@ -6,6 +6,8 @@ PREFIX=$(pwd)/initrd
 if [ ! -d $LIBDRM ]; then
   if [ ! -e $LIBDRM.tar.xz ]; then
     wget https://dri.freedesktop.org/libdrm/$LIBDRM.tar.xz
+    ERROR=$?
+    if [ ! $ERROR -eq 0 ]; then exit $ERROR; fi
 
   else
     echo "$LIBDRM.tar.xz is already present"

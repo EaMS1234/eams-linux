@@ -6,6 +6,8 @@ PREFIX=$(pwd)/initrd
 if [ ! -d $PIXMAN ]; then
   if [ ! -e $PIXMAN.tar.xz ]; then
     wget https://cairographics.org/releases/$PIXMAN.tar.xz
+    ERROR=$?
+    if [ ! $ERROR -eq 0 ]; then exit $ERROR; fi
 
   else
     echo "$PIXMAN.tar.xz is already present"

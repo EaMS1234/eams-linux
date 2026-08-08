@@ -6,6 +6,8 @@ PREFIX=$(pwd)/initrd
 if [ ! -d $LIBFFI ]; then
   if [ ! -e $LIBFFI.tar.gz ]; then
     wget https://github.com/libffi/libffi/releases/download/v3.7.1/$LIBFFI.tar.gz
+    ERROR=$?
+    if [ ! $ERROR -eq 0 ]; then exit $ERROR; fi
 
   else
     echo "$LIBFFI.tar.gz is already present"

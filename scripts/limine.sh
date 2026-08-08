@@ -12,6 +12,8 @@ fi
 if [ ! -d $LIMINE ]; then
   if [ ! -e $LIMINE.tar.xz ]; then
     wget https://github.com/Limine-Bootloader/Limine/releases/download/$VERSION/$LIMINE.tar.xz
+    ERROR=$?
+    if [ ! $ERROR -eq 0 ]; then exit $ERROR; fi
 
   else
     echo "$LIMINE.tar.xz is already present"

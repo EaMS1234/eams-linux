@@ -6,6 +6,8 @@ PREFIX=../initrd
 if [ ! -d $MUSL ]; then
   if [ ! -e $MUSL.tar.gz ]; then
     wget https://musl.libc.org/releases/$MUSL.tar.gz
+    ERROR=$?
+    if [ ! $ERROR -eq 0 ]; then exit $ERROR; fi
 
   else
     echo "$MUSL.tar.gz is already present"

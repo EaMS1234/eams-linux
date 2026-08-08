@@ -10,6 +10,8 @@ fi
 if [ ! -d $BUSYBOX ]; then
   if [ ! -e $BUSYBOX.tar.bz2 ]; then
     wget https://busybox.net/downloads/$BUSYBOX.tar.bz2
+    ERROR=$?
+    if [ ! $ERROR -eq 0 ]; then exit $ERROR; fi
 
   else
     echo "$BUSYBOX.tar.bz2 is already present"

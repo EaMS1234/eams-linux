@@ -6,6 +6,8 @@ PREFIX=$(pwd)/initrd
 if [ ! -d $LIBXML2 ]; then
   if [ ! -e $LIBXML2.tar.gz ]; then
     wget https://gitlab.gnome.org/GNOME/libxml2/-/archive/v2.15.3/$LIBXML2.tar.gz
+    ERROR=$?
+    if [ ! $ERROR -eq 0 ]; then exit $ERROR; fi
 
   else
     echo "$LIBXML2.tar.gz is already present"

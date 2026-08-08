@@ -11,6 +11,8 @@ fi
 if [ ! -d $OPENDOAS ]; then
   if [ ! -e $OPENDOAS.tar.gz ]; then
     wget https://github.com/Duncaen/OpenDoas/releases/download/$VERSION/$OPENDOAS.tar.gz
+    ERROR=$?
+    if [ ! $ERROR -eq 0 ]; then exit $ERROR; fi
 
   else
     echo "$OPENDOAS.tar.bz2 is already present"

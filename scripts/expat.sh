@@ -6,6 +6,8 @@ PREFIX=$(pwd)/initrd
 if [ ! -d $EXPAT ]; then
   if [ ! -e $EXPAT.tar.xz ]; then
     wget https://github.com/libexpat/libexpat/releases/download/R_2_8_2/$EXPAT.tar.xz
+    ERROR=$?
+    if [ ! $ERROR -eq 0 ]; then exit $ERROR; fi
 
   else
     echo "$EXPAT.tar.xz is already present"
