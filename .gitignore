@@ -16,7 +16,7 @@ wayland-*
 libffi-*
 expat-*
 libxml2-*
-xkbcommon-*
+libxkbcommon-xkbcommon-*
 libdrm-*
 pixman-*
 *.tar*
