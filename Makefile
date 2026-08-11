@@ -1,46 +1,46 @@
-all: essentials eams-linux.iso run
+all: base eams-linux.iso
 
-ui: essentials initrd/lib/libwayland-server.so initrd/lib/libxkbcommon.so eams-linux.iso run
+ui: base initrd/lib/libwayland-server.so initrd/lib/libxkbcommon.so eams-linux.iso
 
-essentials: initrd/lib/libc.so initrd/bin/busybox initrd/bin/doas initrd/bin/limine root/boot/bzImage
+base: root/boot/bzImage initrd/lib/libc.so initrd/bin/busybox initrd/bin/doas initrd/bin/limine
 
 initrd/lib/libc.so:
-	scripts/build/musl.sh
+	scripts/build/base/musl.sh
 
 initrd/lib/libffi.so: initrd/lib/libc.so
-	scripts/build/libffi.sh
-
-initrd/lib/libxml2.so: initrd/lib/libc.so
-	scripts/build/libxml2.sh
-
-initrd/lib/libexpat.so: initrd/lib/libc.so
-	scripts/build/expat.sh
-
-initrd/lib/libpixman-1.so: initrd/lib/libc.so
-	scripts/build/pixman.sh
-
-initrd/lib/libdrm.so: initrd/lib/libc.so
-	scripts/build/libdrm.sh
-
-initrd/lib/libwayland-server.so: initrd/lib/libffi.so initrd/lib/libxml2.so initrd/lib/libexpat.so
-	scripts/build/wayland.sh
-
-initrd/lib/libxkbcommon.so: initrd/lib/libwayland-server.so initrd/lib/libpixman-1.so initrd/lib/libdrm.so
-	scripts/build/xkbcommon.sh
+	scripts/build/base/libffi.sh
 
 initrd/bin/limine: initrd/lib/libc.so
-	scripts/build/limine.sh
+	scripts/build/base/limine.sh
 
 initrd/bin/busybox: initrd/lib/libc.so
-	scripts/build/busybox.sh
+	scripts/build/base/busybox.sh
 
 initrd/bin/doas: initrd/lib/libc.so
-	scripts/build/opendoas.sh
+	scripts/build/base/opendoas.sh
 
 root/boot/bzImage:
-	scripts/build/kernel.sh
+	scripts/build/base/kernel.sh
 
-root/boot/initrd.img: essentials
+initrd/lib/libxml2.so: base
+	scripts/build/ui/libxml2.sh
+
+initrd/lib/libexpat.so: base
+	scripts/build/ui/expat.sh
+
+initrd/lib/libpixman-1.so: base
+	scripts/build/ui/pixman.sh
+
+initrd/lib/libdrm.so: base
+	scripts/build/ui/libdrm.sh
+
+initrd/lib/libwayland-server.so: initrd/lib/libffi.so initrd/lib/libxml2.so initrd/lib/libexpat.so
+	scripts/build/ui/wayland.sh
+
+initrd/lib/libxkbcommon.so: initrd/lib/libwayland-server.so initrd/lib/libpixman-1.so initrd/lib/libdrm.so
+	scripts/build/ui/xkbcommon.sh
+
+root/boot/initrd.img: base
 	scripts/initrd.sh
 
 eams-linux.iso: root/boot/initrd.img
@@ -49,4 +49,3 @@ eams-linux.iso: root/boot/initrd.img
 
 run: eams-linux.iso
 	qemu-system-x86_64 -cdrom eams-linux.iso -m 512M
-
