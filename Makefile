@@ -7,9 +7,6 @@ base: root/boot/bzImage initrd/lib/libc.so initrd/bin/busybox initrd/bin/doas in
 initrd/lib/libc.so:
 	scripts/build/base/musl.sh
 
-initrd/lib/libffi.so: initrd/lib/libc.so
-	scripts/build/base/libffi.sh
-
 initrd/bin/limine: initrd/lib/libc.so
 	scripts/build/base/limine.sh
 
@@ -21,6 +18,9 @@ initrd/bin/doas: initrd/lib/libc.so
 
 root/boot/bzImage:
 	scripts/build/base/kernel.sh
+
+initrd/lib/libffi.so: initrd/lib/libc.so
+	scripts/build/ui/libffi.sh
 
 initrd/lib/libxml2.so: base
 	scripts/build/ui/libxml2.sh
