@@ -1,6 +1,6 @@
 all: base eams-linux.iso
 
-ui: base initrd/lib/libwayland-server.so initrd/lib/libxkbcommon.so eams-linux.iso
+wayland: base initrd/lib/libwayland-server.so initrd/lib/libxkbcommon.so eams-linux.iso
 
 base: root/boot/bzImage initrd/lib/libc.so initrd/bin/busybox initrd/bin/doas initrd/bin/limine
 
