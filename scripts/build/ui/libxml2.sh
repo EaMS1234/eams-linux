@@ -25,5 +25,5 @@ fi
 cd $LIBXML2
 meson setup build --prefix=$PREFIX
 ninja -C build install
-ln -s libxml2.so $PREFIX/lib/libxml2.so.2
+ln -sf libxml2.so $PREFIX/lib/libxml2.so.2
 cd ..

@@ -1,10 +1,7 @@
+initrd/usr
 initrd/init
-initrd/bin/
-initrd/lib/
-initrd/include/
-initrd/share/
-initrd/libexec/
-root/boot/
+initrd/lib
+root/boot
 *.iso
 
 linux-*

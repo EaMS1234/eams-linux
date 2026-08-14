@@ -23,8 +23,8 @@ else
 fi
 
 cd $KBD
-./configure --prefix=$PREFIX
-make -j $(nproc --all) install
+./configure --prefix=/usr
+make -j $(nproc --all) install DESTDIR=$PREFIX
 cd ..
 
 find "$PREFIX/share/keymaps" -type f -name "*.gz" | while IFS= read -r file; do

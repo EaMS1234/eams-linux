@@ -1,11 +1,7 @@
 #!/bin/sh
 
 BUSYBOX=busybox-1.38.0
-
-if [ ! -e initrd/bin/ ]; then
-  mkdir initrd/bin/
-
-fi
+PREFIX=$(pwd)/initrd
 
 if [ ! -d $BUSYBOX ]; then
   if [ ! -e $BUSYBOX.tar.bz2 ]; then
@@ -29,13 +25,10 @@ fi
 cd $BUSYBOX
 cp ../config/busybox.config ./.config
 make -j $(nproc --all)
-cp busybox ../initrd/bin/
+cp busybox $PREFIX/usr/bin/
 cd ..
 
-for item in $(initrd/bin/busybox --list); do
-    ln -s /bin/busybox initrd/bin/$item
+for item in $($PREFIX/usr/bin/busybox --list); do
+    ln -sf busybox $PREFIX/usr/bin/$item
 done
-ln -s /bin/busybox initrd/init
-chmod +x initrd/bin/*
-chmod +x initrd/init
-
+ln -sf bin/busybox $PREFIX/init

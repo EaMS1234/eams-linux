@@ -1,7 +1,7 @@
 #!/bin/sh
 
 MUSL=musl-1.2.6
-PREFIX=../initrd
+PREFIX=$(pwd)/initrd
 
 if [ ! -d $MUSL ]; then
   if [ ! -e $MUSL.tar.gz ]; then
@@ -23,9 +23,9 @@ else
 fi
 
 cd $MUSL
-./configure --prefix="$PREFIX" --syslibdir="$PREFIX/lib/" --disable-gcc-wrapper
-make -j $(nproc --all) TARGET=x86_64-linux-musl install
+./configure --prefix="/usr" --syslibdir="/usr/lib" --disable-gcc-wrapper
+make -j $(nproc --all) TARGET=x86_64-linux-musl install DESTDIR=$PREFIX
 rm $PREFIX/lib/ld-musl-x86_64.so.1
-ln -s /lib/libc.so $PREFIX/lib/ld-musl-x86_64.so.1
+ln -sf libc.so $PREFIX/usr/lib/ld-musl-x86_64.so.1
 cd ..
 

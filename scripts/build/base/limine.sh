@@ -1,8 +1,8 @@
 #!/bin/sh
 
 LIMINE=limine-12.5.2
-
 VERSION="v${LIMINE#limine-}"
+PREFIX=$(pwd)/initrd
 
 if [ ! -e initrd/bin/ ]; then
   mkdir initrd/bin/
@@ -29,9 +29,9 @@ else
 fi
 
 cd $LIMINE
-./configure --enable-bios --enable-bios-cd --enable-uefi-x86-64 --enable-uefi-cd --prefix=$(pwd)/../initrd/
-make -j $(nproc --all) && make install
+./configure --enable-bios --enable-bios-cd --enable-uefi-x86-64 --enable-uefi-cd --prefix=/usr
+make -j $(nproc --all) && make install DESTDIR=$PREFIX
 cd ..
 
-cp initrd/share/limine/* root/boot/
+cp $PREFIX/usr/share/limine/* root/boot/
 

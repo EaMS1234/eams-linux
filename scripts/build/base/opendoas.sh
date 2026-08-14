@@ -2,6 +2,7 @@
 
 OPENDOAS=opendoas-6.8.2
 VERSION="v${OPENDOAS#opendoas-}"
+PREFIX=$(pwd)/initrd
 
 if [ ! -e initrd/bin/ ]; then
   mkdir initrd/bin/
@@ -28,8 +29,8 @@ else
 fi
 
 cd $OPENDOAS
-./configure --prefix=$(pwd)/../initrd --without-pam
-make -j $(nproc --all) && make install
+./configure --prefix=/usr --without-pam
+make -j $(nproc --all) && make install DESTDIR=$PREFIX
 cd ..
 
-chmod u+s initrd/bin/doas
+chmod u+s $PREFIX/usr/bin/doas

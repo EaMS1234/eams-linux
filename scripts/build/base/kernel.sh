@@ -1,6 +1,7 @@
 #!/bin/sh
 
 LINUX=linux-7.1.5
+PREFIX=$(pwd)/initrd
 
 if [ ! -d $LINUX ]; then
   if [ ! -e $LINUX.tar.xz ]; then
@@ -24,7 +25,7 @@ fi
 cd $LINUX
 cp ../config/kernel.config ./.config && make olddefconfig
 make -j $(nproc --all)
-make -j $(nproc --all) INSTALL_HDR_PATH=../initrd/ headers_install
+make -j $(nproc --all) INSTALL_HDR_PATH=$PREFIX/usr/ headers_install
 
 cd ..
 cp $LINUX/arch/x86/boot/bzImage root/boot/
