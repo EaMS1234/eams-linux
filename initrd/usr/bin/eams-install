@@ -37,32 +37,40 @@ echo " [2/6] Copying files..."
 cp $ISO/boot/bzImage $TMP_BOOT
 cp $ISO/boot/limine-bios.sys $TMP_BOOT
 
-cp -r /bin $TMP
-cp -r /lib $TMP
-cp -r /include $TMP
-cp -r /share $TMP
+cp -r /usr $TMP
 cp -r /etc $TMP
+ln -s usr/bin $TMP/bin
+ln -s usr/lib $TMP/lib
 
 rm $TMP/bin/eams-install
 if [ -e $TMP/lost+found ]; then rm -r $TMP/lost+found; fi
 
 echo " [3/6] Making initrd.img..."
 
-touch $TMP/init
-chmod +x $TMP/init
-echo "#!/bin/sh" >> $TMP/init
-echo "mkdir -p /proc /sys /dev" >> $TMP/init
-echo "mount -t proc proc /proc" >> $TMP/init
-echo "mount -t sysfs sysfs /sys" >> $TMP/init
-echo "mount -t devtmpfs devtmpfs /dev" >> $TMP/init
-echo "mount $ROOT /root" >> $TMP/init
-echo "exec run-init /root /bin/init" >> $TMP/init
+mkdir -p $TMP/initrd/usr/bin $TMP/initrd/usr/lib
 
-cd $TMP
-find . -path './etc' -prune -o -print0 | cpio --null -ov --format=newc | gzip -9 > $TMP_BOOT/initrd.img
+cp -r /usr/lib/* $TMP/initrd/usr/lib
+cp /usr/bin/busybox $TMP/initrd/usr/bin
+busybox --install -s $TMP/initrd/usr/bin
+ln -s usr/bin $TMP/initrd/bin
+ln -s usr/lib $TMP/initrd/lib
+
+cd $TMP/initrd
+
+touch init
+chmod +x init
+echo "#!/bin/sh" >> init
+echo "mkdir -p /proc /sys /dev" >> init
+echo "mount -t proc proc /proc" >> init
+echo "mount -t sysfs sysfs /sys" >> init
+echo "mount -t devtmpfs devtmpfs /dev" >> init
+echo "mount $ROOT /root" >> init
+echo "exec run-init /root /bin/init" >> init
+
+find . -print0 | cpio --null -ov --format=newc | gzip -9 > $TMP_BOOT/initrd.img
+
 cd /
-
-rm $TMP/init
+rm -r $TMP/initrd
 
 echo " [4/6] Configuring inittab and fstab"
 
