@@ -2,7 +2,7 @@ all: base eams-linux.iso
 
 wayland: base initrd/lib/libwayland-server.so initrd/lib/libxkbcommon.so eams-linux.iso
 
-base: root/boot/bzImage initrd/lib/libc.so initrd/bin/busybox initrd/bin/doas initrd/bin/limine
+base: root/boot/bzImage initrd/lib/libc.so initrd/bin/busybox initrd/bin/doas initrd/bin/limine initrd/bin/kbdinfo
 
 initrd/lib/libc.so:
 	scripts/build/base/musl.sh
@@ -15,6 +15,9 @@ initrd/bin/busybox: initrd/lib/libc.so
 
 initrd/bin/doas: initrd/lib/libc.so
 	scripts/build/base/opendoas.sh
+
+initrd/bin/kbdinfo: initrd/bin/busybox
+	scripts/build/base/kbd.sh
 
 root/boot/bzImage:
 	scripts/build/base/kernel.sh
@@ -49,3 +52,4 @@ eams-linux.iso: root/boot/initrd.img
 
 run: eams-linux.iso
 	qemu-system-x86_64 -cdrom eams-linux.iso -m 512M
+

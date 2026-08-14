@@ -12,6 +12,7 @@ busybox-*
 musl-*
 limine-*
 opendoas-*
+kbd-*
 wayland-*
 libffi-*
 expat-*
