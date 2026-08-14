@@ -27,7 +27,6 @@ cd $KBD
 make -j $(nproc --all) install DESTDIR=$PREFIX
 cd ..
 
-find "$PREFIX/share/keymaps" -type f -name "*.gz" | while IFS= read -r file; do
+find "$PREFIX/usr/share/keymaps" -type f -name "*.gz" | while IFS= read -r file; do
     gzip -df $file
 done
-

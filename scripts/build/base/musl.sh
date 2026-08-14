@@ -25,7 +25,6 @@ fi
 cd $MUSL
 ./configure --prefix="/usr" --syslibdir="/usr/lib" --disable-gcc-wrapper
 make -j $(nproc --all) TARGET=x86_64-linux-musl install DESTDIR=$PREFIX
-rm $PREFIX/lib/ld-musl-x86_64.so.1
+rm $PREFIX/usr/lib/ld-musl-x86_64.so.1
 ln -sf libc.so $PREFIX/usr/lib/ld-musl-x86_64.so.1
 cd ..
-
