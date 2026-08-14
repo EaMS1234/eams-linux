@@ -1,6 +1,5 @@
 initrd/usr
 initrd/init
-initrd/lib
 root/boot
 *.iso
 
