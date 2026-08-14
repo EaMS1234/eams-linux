@@ -23,7 +23,7 @@ else
 fi
 
 cd $LIBXML2
-meson setup build --prefix=$PREFIX
-ninja -C build install
-ln -sf libxml2.so $PREFIX/lib/libxml2.so.2
+meson setup build --reconfigure --prefix=/usr
+DESTDIR=$PREFIX ninja -C build install
+ln -sf libxml2.so $PREFIX/usr/lib/libxml2.so.2
 cd ..

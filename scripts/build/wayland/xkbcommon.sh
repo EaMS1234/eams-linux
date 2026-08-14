@@ -3,9 +3,6 @@
 XKBCOMMON=xkbcommon-1.14.0-beta1
 PREFIX=$(pwd)/initrd
 
-export PKG_CONFIG_PATH="$PREFIX/lib/pkgconfig:$PREFIX/share/pkgconfig:$PKG_CONFIG_PATH"
-export LD_LIBRARY_PATH="$PREFIX/lib:$LD_LIBRARY_PATH"
-
 if [ ! -d libxkbcommon-$XKBCOMMON ]; then
   if [ ! -e $XKBCOMMON.tar.gz ]; then
     wget https://github.com/xkbcommon/libxkbcommon/archive/refs/tags/$XKBCOMMON.tar.gz
@@ -26,7 +23,7 @@ else
 fi
 
 cd libxkbcommon-$XKBCOMMON
-meson setup build --prefix=$PREFIX -Denable-x11=false
-ninja -C build install
+meson setup build --reconfigure --prefix=/usr -Denable-x11=false
+DESTDIR=$PREFIX ninja -C build install
 cd ..
 

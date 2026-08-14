@@ -1,6 +1,6 @@
 all: base eams-linux.iso
 
-wayland: base initrd/lib/libwayland-server.so initrd/lib/libxkbcommon.so eams-linux.iso
+wayland: base initrd/usr/lib/libwayland-server.so initrd/usr/lib/libxkbcommon.so eams-linux.iso
 
 base: root/boot/bzImage initrd/usr/lib/libc.so initrd/usr/bin/busybox initrd/usr/bin/doas initrd/usr/bin/limine initrd/usr/bin/kbdinfo
 
@@ -22,26 +22,26 @@ initrd/usr/bin/kbdinfo: initrd/bin/busybox
 root/boot/bzImage:
 	scripts/build/base/kernel.sh
 
-initrd/lib/libffi.so: base
-	scripts/build/ui/libffi.sh
+initrd/usr/lib/libffi.so: base
+	scripts/build/wayland/libffi.sh
 
-initrd/lib/libxml2.so: base
-	scripts/build/ui/libxml2.sh
+initrd/usr/lib/libxml2.so: base
+	scripts/build/wayland/libxml2.sh
 
-initrd/lib/libexpat.so: base
-	scripts/build/ui/expat.sh
+initrd/usr/lib/libexpat.so: base
+	scripts/build/wayland/expat.sh
 
-initrd/lib/libpixman-1.so: base
-	scripts/build/ui/pixman.sh
+initrd/usr/lib/libpixman-1.so: base
+	scripts/build/wayland/pixman.sh
 
-initrd/lib/libdrm.so: base
-	scripts/build/ui/libdrm.sh
+initrd/usr/lib/libdrm.so: base
+	scripts/build/wayland/libdrm.sh
 
-initrd/lib/libwayland-server.so: initrd/lib/libffi.so initrd/lib/libxml2.so initrd/lib/libexpat.so
-	scripts/build/ui/wayland.sh
+initrd/usr/lib/libwayland-server.so: initrd/usr/lib/libffi.so initrd/usr/lib/libxml2.so initrd/usr/lib/libexpat.so
+	scripts/build/wayland/wayland.sh
 
-initrd/lib/libxkbcommon.so: initrd/lib/libwayland-server.so initrd/lib/libpixman-1.so initrd/lib/libdrm.so
-	scripts/build/ui/xkbcommon.sh
+initrd/usr/lib/libxkbcommon.so: initrd/usr/lib/libwayland-server.so initrd/usr/lib/libpixman-1.so initrd/usr/lib/libdrm.so
+	scripts/build/wayland/xkbcommon.sh
 
 root/boot/initrd.img: base
 	scripts/initrd.sh

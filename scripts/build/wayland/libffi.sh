@@ -23,6 +23,6 @@ else
 fi
 
 cd $LIBFFI
-./configure --prefix="$PREFIX"
-make -j $(nproc --all) && make install
+./configure --prefix=/usr
+make -j $(nproc --all) && make install DESTDIR=$PREFIX
 cd ..

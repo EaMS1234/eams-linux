@@ -23,6 +23,6 @@ else
 fi
 
 cd $PIXMAN
-meson setup build --prefix="$PREFIX"
-ninja -C build install
+meson setup build --reconfigure --prefix=/usr
+DESTDIR=$PREFIX ninja -C build install
 cd ..

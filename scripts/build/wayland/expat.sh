@@ -23,6 +23,6 @@ else
 fi
 
 cd $EXPAT
-./configure --prefix="$PREFIX"
-make -j $(nproc --all) && make install
+./configure --prefix=/usr
+make -j $(nproc --all) && make install DESTDIR=$PREFIX
 cd ..

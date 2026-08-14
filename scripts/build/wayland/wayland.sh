@@ -4,9 +4,6 @@ WAYLAND=wayland-1.26.0
 WAYLAND_PROTOCOLS=wayland-protocols-1.49
 PREFIX=$(pwd)/initrd
 
-export PKG_CONFIG_PATH="$PREFIX/lib/pkgconfig:$PKG_CONFIG_PATH"
-export LD_LIBRARY_PATH="$PREFIX/lib:$LD_LIBRARY_PATH"
-
 if [ ! -d $WAYLAND ]; then
   if [ ! -e $WAYLAND.tar.xz ]; then
     wget https://gitlab.freedesktop.org/wayland/wayland/-/releases/1.26.0/downloads/$WAYLAND.tar.xz
@@ -27,8 +24,8 @@ else
 fi
 
 cd $WAYLAND
-meson setup build --prefix=$PREFIX -Ddocumentation=false
-ninja -C build install
+meson setup build --reconfigure --prefix=/usr -Ddocumentation=false
+DESTDIR=$PREFIX ninja -C build install
 cd ..
 
 
@@ -50,6 +47,6 @@ else
 fi
 
 cd $WAYLAND_PROTOCOLS
-meson setup build --prefix=$PREFIX -Dtests=false
-ninja -C build install
+meson setup build --reconfigure --prefix=/usr -Dtests=false
+DESTDIR=$PREFIX ninja -C build install
 cd ..
