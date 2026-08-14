@@ -7,13 +7,13 @@ base: root/boot/bzImage initrd/usr/lib/libc.so initrd/usr/bin/busybox initrd/usr
 initrd/usr/lib/libc.so:
 	scripts/build/base/musl.sh
 
-initrd/usr/bin/limine: initrd/lib/libc.so
+initrd/usr/bin/limine: initrd/usr/lib/libc.so
 	scripts/build/base/limine.sh
 
-initrd/usr/bin/busybox: initrd/lib/libc.so
+initrd/usr/bin/busybox: initrd/usr/lib/libc.so
 	scripts/build/base/busybox.sh
 
-initrd/usr/bin/doas: initrd/lib/libc.so
+initrd/usr/bin/doas: initrd/usr/lib/libc.so
 	scripts/build/base/opendoas.sh
 
 initrd/usr/bin/kbdinfo: initrd/bin/busybox
@@ -22,7 +22,7 @@ initrd/usr/bin/kbdinfo: initrd/bin/busybox
 root/boot/bzImage:
 	scripts/build/base/kernel.sh
 
-initrd/lib/libffi.so: initrd/lib/libc.so
+initrd/lib/libffi.so: base
 	scripts/build/ui/libffi.sh
 
 initrd/lib/libxml2.so: base
