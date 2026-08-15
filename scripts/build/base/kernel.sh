@@ -1,6 +1,6 @@
 #!/bin/sh
 
-LINUX=linux-7.1.5
+LINUX=linux-7.1.8
 PREFIX=$(pwd)/initrd
 
 if [ ! -d $LINUX ]; then
