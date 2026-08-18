@@ -2,7 +2,7 @@ all: base eams-linux.iso
 
 wayland: base initrd/usr/lib/libwayland-server.so initrd/usr/lib/libxkbcommon.so eams-linux.iso
 
-base: root/boot/bzImage initrd/usr/lib/libc.so initrd/usr/lib64/libgcc_s.so initrd/usr/bin/busybox initrd/usr/bin/doas initrd/usr/bin/limine initrd/usr/bin/kbdinfo
+base: root/bzImage initrd/usr/lib/libc.so initrd/usr/lib64/libgcc_s.so initrd/usr/bin/busybox initrd/usr/bin/doas initrd/usr/bin/limine initrd/usr/bin/kbdinfo
 
 initrd/usr/lib/libc.so:
 	scripts/build/base/musl.sh
@@ -22,7 +22,7 @@ initrd/usr/bin/doas: initrd/usr/lib/libc.so
 initrd/usr/bin/kbdinfo: initrd/bin/busybox
 	scripts/build/base/kbd.sh
 
-root/boot/bzImage:
+root/bzImage:
 	scripts/build/base/kernel.sh
 
 initrd/usr/lib/libffi.so: base
@@ -46,11 +46,11 @@ initrd/usr/lib/libwayland-server.so: initrd/usr/lib/libffi.so initrd/usr/lib/lib
 initrd/usr/lib/libxkbcommon.so: initrd/usr/lib/libwayland-server.so initrd/usr/lib/libpixman-1.so initrd/usr/lib/libdrm.so
 	scripts/build/wayland/xkbcommon.sh
 
-root/boot/initrd.img: base
+root/initrd.img: base
 	scripts/initrd.sh
 
-eams-linux.iso: root/boot/initrd.img
-	xorriso -as mkisofs -V "EaMS Linux" -b /boot/limine-bios-cd.bin -no-emul-boot -boot-load-size 4 -boot-info-table --efi-boot /boot/limine-uefi-cd.bin -efi-boot-part --efi-boot-image root/ -o eams-linux.iso
+eams-linux.iso: root/initrd.img
+	xorriso -as mkisofs -V "eams-linux-live" -b /boot/limine-bios-cd.bin -no-emul-boot -boot-load-size 4 -boot-info-table --efi-boot /boot/limine-uefi-cd.bin -efi-boot-part --efi-boot-image root/ -o eams-linux.iso
 	initrd/bin/limine bios-install eams-linux.iso
 
 run: eams-linux.iso

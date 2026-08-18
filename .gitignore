@@ -1,6 +1,8 @@
 initrd/usr
 initrd/init
 root/boot
+root/bzImage
+root/initrd.img
 *.iso
 
 linux-*

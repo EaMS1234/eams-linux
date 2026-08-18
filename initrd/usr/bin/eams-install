@@ -1,6 +1,5 @@
 #!/bin/sh
 
-ISO=/mnt/iso/
 TMP=/mnt/tmp/
 TMP_BOOT=/mnt/boot/
 
@@ -18,9 +17,6 @@ if [ ! -e /mnt ]; then
   mkdir /mnt
 fi
 
-mkdir $ISO
-mount /dev/sr0 $ISO
-
 mkdir $TMP
 mount $ROOT $TMP
 
@@ -34,8 +30,11 @@ mkdir $TMP/mnt/
 
 echo " [2/6] Copying files..."
 
-cp $ISO/boot/bzImage $TMP_BOOT
-cp $ISO/boot/limine-bios.sys $TMP_BOOT
+mkdir $TMP_BOOT/boot/
+
+cp /boot/bzImage $TMP_BOOT
+cp /usr/share/limine/* $TMP_BOOT/boot/
+cp /boot/boot/limine.conf $TMP_BOOT/boot/
 
 cp -r /usr $TMP
 cp -r /etc $TMP
@@ -77,6 +76,7 @@ echo " [4/6] Configuring inittab and fstab"
 
 sed -i 's|::askfirst:-/bin/sh|::respawn:/bin/getty 38400 tty1|' $TMP/etc/inittab
 
+rm $TMP/etc/fstab
 touch $TMP/etc/fstab
 
 ROOT_UUID=$(echo $(blkid $ROOT) | sed -n 's/.*UUID="\([^"]*\)".*/\1/p')
@@ -87,21 +87,11 @@ echo "UUID=$BOOT_UUID /boot vfat defaults" >> $TMP/etc/fstab
 
 echo " [5/6] Installing limine on ${BOOT%?} partition ${BOOT: -1}"
 
-touch $TMP_BOOT/limine.conf
-echo "timeout: 5" >> $TMP_BOOT/limine.conf
-echo "/EaMS $(uname -srv)" >> $TMP_BOOT/limine.conf
-echo "  protocol: linux" >> $TMP_BOOT/limine.conf
-echo "  path: boot():/bzImage" >> $TMP_BOOT/limine.conf
-echo "  module_path: boot():/initrd.img" >> $TMP_BOOT/limine.conf
-echo "  cmdline: console=tty1" >> $TMP_BOOT/limine.conf
-
 limine bios-install ${BOOT%?} ${BOOT: -1}
 
 echo " [6/6] Unmounting filesystems..."
 
 umount $BOOT
 umount $ROOT
-umount $ISO
-eject /dev/sr0
 
 echo "EaMS Linux installation complete!"

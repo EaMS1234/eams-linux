@@ -33,5 +33,5 @@ cd $LIMINE
 make -j $(nproc --all) && make install DESTDIR=$PREFIX
 cd ..
 
-cp $PREFIX/usr/share/limine/* root/boot/
+cp $PREFIX/usr/share/limine/* root/boot/limine/
 
