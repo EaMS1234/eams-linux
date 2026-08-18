@@ -1,7 +1,7 @@
 # eams-linux
 A **collection of scripts** used to automate the process of building a bootable .iso image of **EaMS Linux**, a tiny Linux distribution made for fun.
 
-The OS itself consists of a Linux kernel, Libc (Musl) and Libstdc++ (Libgcc), Unix utils (Busybox, Opendoas and Kbd), and a bootloader with UEFI support (Limine).
+The OS itself consists of a Linux kernel, Libc (Musl) and Libstdc++ (Libgcc), Unix utils (Busybox), a bootloader with UEFI support (Limine) and other tools (Kbd, Opendoas and e2fsprogs).
 
 ## Project structure
 - `config/`: settings for the kernel and Busybox releases distributed with the OS;
@@ -16,7 +16,7 @@ Simply run `make` on the root of the code to start downloading and building the 
 Run `make wayland` to include the `wayland` and `wayland-protocols` packages in the init filesystem of the OS.
 You can boot the iso on QEMU with `make run`.
 
-### Make with Docker
+### With Docker
 Run `scripts/make_with_docker.sh` from the root of the repo in order to build EaMS Linux inside a temporary docker container, with all its dependencies.
 You can also run `scripts/make_with_docker.sh wayland` to include `wayland` and `wayland-protocols` as well.
 
