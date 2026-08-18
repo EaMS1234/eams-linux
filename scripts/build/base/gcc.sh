@@ -25,8 +25,8 @@ fi
 cd $GCC
 mkdir build
 cd build
-../configure --prefix=/usr --target=x86_64-linux-musl --enable-languages=c,c++ --disable-multilib --disable-bootstrap --disable-symvers --disable-stdcxx-pch --enable-clocale=generic --disable-libsanitizer --disable-libgomp --disable-libquadmath --disable-libitm --disable-libvtv --disable-libssp --disable-nls
-make -j$(nproc) all-target-libgcc_s all-target-libstdc++-v3
-make install-target-libgcc_s install-target-libstdc++-v3
+../configure --prefix=/usr --target=x86_64-linux-musl --enable-languages=c,c++ --enable-checking=release --enable-clocale=generic --enable-shared --disable-static --disable-multilib --disable-bootstrap --disable-symvers --disable-stdcxx-pch --disable-libsanitizer --disable-libgomp --disable-libquadmath --disable-libitm --disable-libvtv --disable-libssp --disable-nls --disable-libatomic
+make -j$(nproc) all-target-libgcc all-target-libstdc++-v3
+make install-target-libgcc install-target-libstdc++-v3 DESTDIR=$PREFIX
 cd ..
 

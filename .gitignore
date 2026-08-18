@@ -9,6 +9,7 @@ musl-*
 limine-*
 opendoas-*
 kbd-*
+gcc-*
 wayland-*
 libffi-*
 expat-*

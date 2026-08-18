@@ -2,10 +2,13 @@ all: base eams-linux.iso
 
 wayland: base initrd/usr/lib/libwayland-server.so initrd/usr/lib/libxkbcommon.so eams-linux.iso
 
-base: root/boot/bzImage initrd/usr/lib/libc.so initrd/usr/bin/busybox initrd/usr/bin/doas initrd/usr/bin/limine initrd/usr/bin/kbdinfo
+base: root/boot/bzImage initrd/usr/lib/libc.so initrd/usr/lib64/libgcc_s.so initrd/usr/bin/busybox initrd/usr/bin/doas initrd/usr/bin/limine initrd/usr/bin/kbdinfo
 
 initrd/usr/lib/libc.so:
 	scripts/build/base/musl.sh
+
+initrd/usr/lib64/libgcc_s.so: initrd/usr/lib/libc.so
+	scripts/build/base/gcc.sh
 
 initrd/usr/bin/limine: initrd/usr/lib/libc.so
 	scripts/build/base/limine.sh
