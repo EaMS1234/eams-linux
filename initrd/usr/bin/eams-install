@@ -41,6 +41,7 @@ cp -r /usr $TMP
 cp -r /etc $TMP
 ln -s usr/bin $TMP/bin
 ln -s usr/lib $TMP/lib
+ln -s usr/lib64 $TMP/lib64
 
 rm $TMP/bin/eams-install
 if [ -e $TMP/lost+found ]; then rm -r $TMP/lost+found; fi
