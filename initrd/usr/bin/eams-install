@@ -89,6 +89,9 @@ echo " [5/6] Installing limine on ${BOOT%?} partition ${BOOT: -1}"
 
 limine bios-install ${BOOT%?} ${BOOT: -1}
 
+mkdir -p $TMP_BOOT/EFI/BOOT
+mv $TMP_BOOT/boot/BOOTX64.EFI $TMP_BOOT/EFI/BOOT/BOOTX64.EFI
+
 echo " [6/6] Unmounting filesystems..."
 
 umount $BOOT
