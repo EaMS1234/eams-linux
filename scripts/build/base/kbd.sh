@@ -25,6 +25,7 @@ fi
 cd $KBD
 ./configure --prefix=/usr
 make -j $(nproc --all) install DESTDIR=$PREFIX
+rm -rf $PREFIX/usr/etc/
 cd ..
 
 find "$PREFIX/usr/share/keymaps" -type f -name "*.gz" | while IFS= read -r file; do
