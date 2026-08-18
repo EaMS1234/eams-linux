@@ -2,7 +2,7 @@ all: base eams-linux.iso
 
 wayland: base initrd/usr/lib/libwayland-server.so initrd/usr/lib/libxkbcommon.so eams-linux.iso
 
-base: root/bzImage initrd/usr/lib/libc.so initrd/usr/lib64/libgcc_s.so initrd/usr/bin/busybox initrd/usr/bin/doas initrd/usr/bin/limine initrd/usr/bin/kbdinfo
+base: root/bzImage initrd/usr/lib/libc.so initrd/usr/lib64/libgcc_s.so initrd/usr/bin/busybox initrd/usr/bin/doas initrd/usr/bin/limine initrd/usr/bin/kbdinfo initrd/usr/bin/fsck.ext2
 
 initrd/usr/lib/libc.so:
 	scripts/build/base/musl.sh
@@ -21,6 +21,9 @@ initrd/usr/bin/doas: initrd/usr/lib/libc.so
 
 initrd/usr/bin/kbdinfo: initrd/bin/busybox
 	scripts/build/base/kbd.sh
+
+initrd/usr/bin/fsck.ext2: initrd/bin/busybox
+	scripts/build/base/e2fsck.sh
 
 root/bzImage:
 	scripts/build/base/kernel.sh

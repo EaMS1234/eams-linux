@@ -11,6 +11,7 @@ musl-*
 limine-*
 opendoas-*
 kbd-*
+e2fsprogs-*
 gcc-*
 wayland-*
 libffi-*
