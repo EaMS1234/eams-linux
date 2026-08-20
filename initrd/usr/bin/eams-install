@@ -88,7 +88,6 @@ echo " [4/6] Configuring inittab and fstab"
 rm $TMP/etc/inittab
 cp /usr/share/eams-install/inittab $TMP/etc
 
-rm $TMP/etc/fstab
 touch $TMP/etc/fstab
 
 ROOT_UUID=$(echo $(blkid $ROOT) | sed -n 's/.*UUID="\([^"]*\)".*/\1/p')
