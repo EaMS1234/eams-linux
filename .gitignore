@@ -1,5 +1,6 @@
 initrd/usr
 initrd/init
+root/EFI
 root/boot
 root/bzImage
 root/initrd.img

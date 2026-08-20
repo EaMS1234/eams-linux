@@ -33,5 +33,7 @@ cd $LIMINE
 make -j $(nproc --all) && make install DESTDIR=$PREFIX
 cd ..
 
+mkdir -p root/EFI/BOOT
 cp $PREFIX/usr/share/limine/* root/boot/
+mv root/boot/BOOTX64.EFI root/EFI/BOOT
 
