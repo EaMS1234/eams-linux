@@ -71,6 +71,7 @@ cp /usr/lib/libc.so $TMP/initrd/usr/lib
 cp /usr/lib/ld-musl-x86_64.so.1 $TMP/initrd/usr/lib
 cp /usr/bin/busybox $TMP/initrd/usr/bin
 busybox --install -s $TMP/initrd/usr/bin
+cp /usr/bin/fsck.ext2 $TMP/initrd/usr/bin
 cp /usr/share/eams-install/init $TMP/initrd
 ln -s usr/bin $TMP/initrd/bin
 ln -s usr/lib $TMP/initrd/lib
