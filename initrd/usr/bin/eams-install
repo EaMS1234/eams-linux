@@ -2,11 +2,27 @@
 
 TMP=/mnt/tmp/
 TMP_BOOT=/mnt/boot/
+TMP_LIVE=/mnt/live/
 
 echo "EaMS Linux simplified installation script"
 
-read -p "/ partition (/dev/sdX): " ROOT
-read -p "/boot partition (/dev/sdX): " BOOT
+DEV_ISO=$(findfs LABEL="eams-linux-live")
+
+if [[ -z "$DEV_ISO" ]]; then
+  echo "Error: could not find EaMS Linux installation medium."
+  exit 1
+fi
+
+read -p "/boot partition (default is /dev/sda1): " BOOT
+read -p "/ partition (default is /dev/sda2): " ROOT
+
+if [[ -z "$BOOT" ]]; then
+  BOOT="/dev/sda1"
+fi
+
+if [[ -z "$ROOT" ]]; then
+  ROOT="/dev/sda2"
+fi
 
 
 echo " [1/6] Making filesystems..."
@@ -20,6 +36,9 @@ mount $ROOT $TMP
 mkdir -p $TMP_BOOT
 mount $BOOT $TMP_BOOT
 
+mkdir -p $TMP_LIVE
+mount $DEV_ISO $TMP_LIVE
+
 mkdir $TMP/root/
 mkdir $TMP/home/
 mkdir $TMP/boot/
@@ -29,8 +48,8 @@ mkdir $TMP/mnt/
 echo " [2/6] Copying files..."
 
 mkdir -p $TMP_BOOT/boot
-cp /boot/bzImage $TMP_BOOT
-cp /boot/boot/limine.conf $TMP_BOOT/boot
+cp $TMP_LIVE/bzImage $TMP_BOOT
+cp $TMP_LIVE/boot/limine.conf $TMP_BOOT/boot
 
 cp -r /usr $TMP
 cp -r /etc $TMP
@@ -92,6 +111,7 @@ echo " [6/6] Unmounting filesystems..."
 
 umount $BOOT
 umount $ROOT
+umount $DEV_ISO
 
 
 echo "EaMS Linux installation complete!"
