@@ -8,19 +8,16 @@ echo "EaMS Linux simplified installation script"
 read -p "/ partition (/dev/sdX): " ROOT
 read -p "/boot partition (/dev/sdX): " BOOT
 
+
 echo " [1/6] Making filesystems..."
 
 mkfs.vfat $BOOT
 mkfs.ext2 $ROOT
 
-if [ ! -e /mnt ]; then
-  mkdir /mnt
-fi
-
-mkdir $TMP
+mkdir -p $TMP
 mount $ROOT $TMP
 
-mkdir $TMP_BOOT
+mkdir -p $TMP_BOOT
 mount $BOOT $TMP_BOOT
 
 mkdir $TMP/root/
@@ -28,53 +25,49 @@ mkdir $TMP/home/
 mkdir $TMP/boot/
 mkdir $TMP/mnt/
 
+
 echo " [2/6] Copying files..."
 
-mkdir $TMP_BOOT/boot/
-
+mkdir -p $TMP_BOOT/boot
 cp /boot/bzImage $TMP_BOOT
-cp /usr/share/limine/* $TMP_BOOT/boot/
-cp /boot/boot/limine.conf $TMP_BOOT/boot/
+cp /boot/boot/limine.conf $TMP_BOOT/boot
 
 cp -r /usr $TMP
 cp -r /etc $TMP
+
 ln -s usr/bin $TMP/bin
 ln -s usr/lib $TMP/lib
 ln -s usr/lib64 $TMP/lib64
 
 rm $TMP/bin/eams-install
+rm -r $TMP/usr/share/eams-install
 if [ -e $TMP/lost+found ]; then rm -r $TMP/lost+found; fi
+
 
 echo " [3/6] Making initrd.img..."
 
 mkdir -p $TMP/initrd/usr/bin $TMP/initrd/usr/lib
 
-cp -r /usr/lib/* $TMP/initrd/usr/lib
+cp /usr/lib/libc.so $TMP/initrd/usr/lib
+cp /usr/lib/ld-musl-x86_64.so.1 $TMP/initrd/usr/lib
 cp /usr/bin/busybox $TMP/initrd/usr/bin
 busybox --install -s $TMP/initrd/usr/bin
+cp /usr/share/eams-install/init $TMP/initrd
 ln -s usr/bin $TMP/initrd/bin
 ln -s usr/lib $TMP/initrd/lib
 
 cd $TMP/initrd
-
-touch init
-chmod +x init
-echo "#!/bin/sh" >> init
-echo "mkdir -p /proc /sys /dev" >> init
-echo "mount -t proc proc /proc" >> init
-echo "mount -t sysfs sysfs /sys" >> init
-echo "mount -t devtmpfs devtmpfs /dev" >> init
-echo "mount $ROOT /root" >> init
-echo "exec run-init /root /bin/init" >> init
 
 find . -print0 | cpio --null -ov --format=newc | gzip -9 > $TMP_BOOT/initrd.img
 
 cd /
 rm -r $TMP/initrd
 
+
 echo " [4/6] Configuring inittab and fstab"
 
-sed -i 's|::askfirst:-/bin/sh|::respawn:/bin/getty 38400 tty1|' $TMP/etc/inittab
+rm $TMP/etc/inittab
+cp /usr/share/eams-install/inittab $TMP/etc
 
 rm $TMP/etc/fstab
 touch $TMP/etc/fstab
@@ -85,16 +78,21 @@ BOOT_UUID=$(echo $(blkid $BOOT) | sed -n 's/.*UUID="\([^"]*\)".*/\1/p')
 echo "UUID=$ROOT_UUID / ext2 defaults" >> $TMP/etc/fstab
 echo "UUID=$BOOT_UUID /boot vfat defaults" >> $TMP/etc/fstab
 
+
 echo " [5/6] Installing limine on ${BOOT%?} partition ${BOOT: -1}"
 
+sed -i '/^[[:space:]]*cmdline: console=tty1$/ s/$/ root=UUID='"$ROOT_UUID"'/' $TMP_BOOT/boot/limine.conf
+mkdir -p $TMP_BOOT/EFI/BOOT
+cp /usr/share/limine/limine-bios.sys $TMP_BOOT/boot/
+cp /usr/share/limine/BOOTX64.EFI $TMP_BOOT/EFI/BOOT
 limine bios-install ${BOOT%?} ${BOOT: -1}
 
-mkdir -p $TMP_BOOT/EFI/BOOT
-mv $TMP_BOOT/boot/BOOTX64.EFI $TMP_BOOT/EFI/BOOT/BOOTX64.EFI
 
 echo " [6/6] Unmounting filesystems..."
 
 umount $BOOT
 umount $ROOT
 
+
 echo "EaMS Linux installation complete!"
+
