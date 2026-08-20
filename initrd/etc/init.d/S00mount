@@ -7,7 +7,9 @@ case "$1" in
     fi
     ;;
   stop)
-    umount -a
+    sync
+    umount -a -r -t noproc,nosysfs,nodevtmpfs 2>/dev/null
+    sync
     ;;
 esac
 
